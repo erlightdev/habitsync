@@ -12,12 +12,12 @@ models:
       updated_at: timestamp
 
     relationships:
-      ownedTeams: hasMany:Team
+      owned_teams: hasMany:Team    # Changed 'ownedteams' to 'owned_teams'
       habits: hasMany:Habit
       projects: hasMany:Project
       notes: hasMany:Note
-      progressLogs: hasMany:ProgressLog
-      teams: belongsToMany:Team
+      progress_logs: hasMany:ProgressLog   # Changed 'progresslogs' to 'progress_logs'
+      user_teams: belongsToMany:Team    # Changed 'teams' to 'user_teams'
 
   Team:
     columns:
@@ -41,7 +41,7 @@ models:
 
     relationships:
       user: belongsTo:User
-      progressLogs: hasMany:ProgressLog
+      progress_logs: hasMany:ProgressLog   # Changed 'progresslogs' to 'progress_logs'
       notes: hasMany:Note
 
   ProgressLog:
