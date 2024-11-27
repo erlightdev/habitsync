@@ -1,0 +1,93 @@
+models:
+  User:
+    columns:
+      id: integer:bigIncrements
+      name: string
+      email: string:unique
+      email_verified_at: timestamp:nullable
+      password: string
+      remember_token: string:nullable
+      role: string
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      ownedTeams: hasMany:Team
+      habits: hasMany:Habit
+      projects: hasMany:Project
+      notes: hasMany:Note
+      progressLogs: hasMany:ProgressLog
+      teams: belongsToMany:Team
+
+  Team:
+    columns:
+      id: integer:bigIncrements
+      name: string
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      owner: belongsTo:User
+      members: belongsToMany:User
+
+  Habit:
+    columns:
+      id: integer:bigIncrements
+      name: string
+      frequency: string
+      description: text
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      user: belongsTo:User
+      progressLogs: hasMany:ProgressLog
+      notes: hasMany:Note
+
+  ProgressLog:
+    columns:
+      id: integer:bigIncrements
+      completed_at: timestamp
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      habit: belongsTo:Habit
+
+  Project:
+    columns:
+      id: integer:bigIncrements
+      description: text
+      start_date: date
+      end_date: date
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      user: belongsTo:User
+      milestones: hasMany:Milestone
+      notes: hasMany:Note
+
+  Milestone:
+    columns:
+      id: integer:bigIncrements
+      description: text
+      due_date: date
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      project: belongsTo:Project
+
+  Note:
+    columns:
+      id: integer:bigIncrements
+      title: string
+      content: text
+      created_at: timestamp
+      updated_at: timestamp
+
+    relationships:
+      user: belongsTo:User
+      project: belongsTo:Project:nullable
+      habit: belongsTo:Habit:nullable
