@@ -1,93 +1,57 @@
 models:
   User:
-    columns:
-      id: integer:bigIncrements
-      name: string
-      email: string:unique
-      email_verified_at: timestamp:nullable
-      password: string
-      remember_token: string:nullable
-      role: string
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    name: string
+    email: string unique
+    email_verified_at: timestamp
+    password: string
+    remember_token: string nullable
+    role: string
     relationships:
-      owned_teams: hasMany:Team    # Changed 'ownedteams' to 'owned_teams'
-      habits: hasMany:Habit
-      projects: hasMany:Project
-      notes: hasMany:Note
-      progress_logs: hasMany:ProgressLog   # Changed 'progresslogs' to 'progress_logs'
-      user_teams: belongsToMany:Team    # Changed 'teams' to 'user_teams'
+      hasMany: Project, Habit, Note, ProgressLog
+      belongsToMany: Team
 
   Team:
-    columns:
-      id: integer:bigIncrements
-      name: string
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    name: string
     relationships:
-      owner: belongsTo:User
-      members: belongsToMany:User
+      belongsTo: User
+      belongsToMany: User
 
   Habit:
-    columns:
-      id: integer:bigIncrements
-      name: string
-      frequency: string
-      description: text
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    name: string
+    frequency: string
+    description: text
     relationships:
-      user: belongsTo:User
-      progress_logs: hasMany:ProgressLog   # Changed 'progresslogs' to 'progress_logs'
-      notes: hasMany:Note
+      belongsTo: User
+      hasMany: ProgressLog, Note
 
   ProgressLog:
-    columns:
-      id: integer:bigIncrements
-      completed_at: timestamp
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    completed_at: timestamp
     relationships:
-      habit: belongsTo:Habit
+      belongsTo: Habit
 
   Project:
-    columns:
-      id: integer:bigIncrements
-      description: text
-      start_date: date
-      end_date: date
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    description: text
+    start_date: date
+    end_date: date
     relationships:
-      user: belongsTo:User
-      milestones: hasMany:Milestone
-      notes: hasMany:Note
+      belongsTo: User
+      hasMany: Milestone, Note
 
   Milestone:
-    columns:
-      id: integer:bigIncrements
-      description: text
-      due_date: date
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    description: text
+    due_date: date
     relationships:
-      project: belongsTo:Project
+      belongsTo: Project
 
   Note:
-    columns:
-      id: integer:bigIncrements
-      title: string
-      content: text
-      created_at: timestamp
-      updated_at: timestamp
-
+    id: id
+    title: string
+    content: text
     relationships:
-      user: belongsTo:User
-      project: belongsTo:Project:nullable
-      habit: belongsTo:Habit:nullable
+      belongsTo: User, Project, Habit

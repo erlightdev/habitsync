@@ -1,2 +1,31 @@
+created:
+    - database/factories/UserFactory.php
+    - database/factories/TeamFactory.php
+    - database/factories/HabitFactory.php
+    - database/factories/ProgressLogFactory.php
+    - database/factories/ProjectFactory.php
+    - database/factories/MilestoneFactory.php
+    - database/factories/NoteFactory.php
+    - database/migrations/2024_11_28_050018_create_users_table.php
+    - database/migrations/2024_11_28_050019_create_teams_table.php
+    - database/migrations/2024_11_28_050020_create_habits_table.php
+    - database/migrations/2024_11_28_050021_create_progress_logs_table.php
+    - database/migrations/2024_11_28_050022_create_projects_table.php
+    - database/migrations/2024_11_28_050023_create_milestones_table.php
+    - database/migrations/2024_11_28_050024_create_notes_table.php
+    - database/migrations/2024_11_28_050025_create_team_user_table.php
+    - app/Models/User.php
+    - app/Models/Team.php
+    - app/Models/Habit.php
+    - app/Models/ProgressLog.php
+    - app/Models/Project.php
+    - app/Models/Milestone.php
+    - app/Models/Note.php
 models:
-    User: {  }
+    User: { id: id, name: string, email: 'string unique', email_verified_at: timestamp, password: string, remember_token: 'string nullable', role: string, relationships: { hasMany: 'Project, Habit, Note, ProgressLog', belongsToMany: Team } }
+    Team: { id: id, name: string, relationships: { belongsTo: User, belongsToMany: User } }
+    Habit: { id: id, name: string, frequency: string, description: text, relationships: { belongsTo: User, hasMany: 'ProgressLog, Note' } }
+    ProgressLog: { id: id, completed_at: timestamp, relationships: { belongsTo: Habit } }
+    Project: { id: id, description: text, start_date: date, end_date: date, relationships: { belongsTo: User, hasMany: 'Milestone, Note' } }
+    Milestone: { id: id, description: text, due_date: date, relationships: { belongsTo: Project } }
+    Note: { id: id, title: string, content: text, relationships: { belongsTo: 'User, Project, Habit' } }
