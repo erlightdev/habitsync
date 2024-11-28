@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\TeamSeeder;
+use Database\Seeders\HabitSeeder;
+use Database\Seeders\ProjectSeeder;
+use Database\Seeders\MilestoneSeeder;
+use Database\Seeders\NoteSeeder;
+use Database\Seeders\ProgressLogSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,7 +20,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Create admin user
-        User::create([
+        $admin = User::create([
             'name' => 'Admin User',
             'email' => 'admin@habitsync.com',
             'password' => Hash::make('password'),
@@ -22,7 +28,17 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // Optional: Create additional test users
-        User::factory(5)->create();
+        // Create additional test users
+        User::factory(10)->create();
+
+        // Call other seeders in order
+        $this->call([
+            TeamSeeder::class,
+            HabitSeeder::class,
+            ProjectSeeder::class,
+            MilestoneSeeder::class,
+            NoteSeeder::class,
+            ProgressLogSeeder::class,
+        ]);
     }
 }
